@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useThemeAudio } from "./ThemeAudioProvider";
 
 const LINES = [
   { prompt: "faal@linux:~$", cmd: "whoami" },
@@ -14,8 +15,11 @@ const LINES = [
 export default function Terminal() {
   const [count, setCount] = useState(0);
   const [done, setDone] = useState(false);
+  // Don't type behind the intro overlay — start only after entering.
+  const { entered } = useThemeAudio();
 
   useEffect(() => {
+    if (!entered) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const t = setTimeout(() => {
         setCount(LINES.length);
@@ -34,7 +38,7 @@ export default function Terminal() {
       });
     }, 650);
     return () => clearInterval(t);
-  }, []);
+  }, [entered]);
 
   return (
     <div

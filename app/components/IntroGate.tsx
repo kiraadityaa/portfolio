@@ -60,16 +60,21 @@ export default function IntroGate() {
     return () => window.clearTimeout(t);
   }, [phase]);
 
+  // Lock page scroll behind the overlay for every intro phase so the
+  // site can't be scrolled (or observed mid-scroll) before entering.
   useEffect(() => {
+    if (phase === "done") {
+      document.body.style.overflow = "";
+      return;
+    }
+    document.body.style.overflow = "hidden";
     if (phase === "choice") {
-      document.body.style.overflow = "hidden";
       choiceRef.current
         ?.querySelector<HTMLElement>("[data-autofocus]")
         ?.focus({ preventScroll: true });
     }
-    if (phase === "done") document.body.style.overflow = "";
     return () => {
-      if (phase === "done") document.body.style.overflow = "";
+      document.body.style.overflow = "";
     };
   }, [phase]);
 
@@ -80,6 +85,8 @@ export default function IntroGate() {
       setPhase("leaving");
       const t = window.setTimeout(() => {
         enter(choice);
+        // Start the site from the very top so hero animations play fresh.
+        window.scrollTo(0, 0);
         setPhase("done");
       }, 450);
       timers.current.push(t);
@@ -200,19 +207,19 @@ export default function IntroGate() {
       {(phase === "choice" || phase === "leaving") && (
         <div
           ref={choiceRef}
-          className="relative mx-auto flex min-h-full w-full max-w-[76rem] flex-1 flex-col justify-center px-5 py-8 sm:px-8"
+          className="relative mx-auto flex min-h-full w-full max-w-[76rem] flex-1 flex-col justify-center px-4 py-6 sm:px-8 lg:py-8"
         >
-          <p className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[var(--sand)]">
-            <span aria-hidden="true" className="inline-block h-2 w-2 bg-[var(--accent-soft)]" />
-            01 — Choose your theme
+          <p className="flex items-center gap-2.5 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--sand)] sm:gap-3 sm:text-[0.7rem]">
+            <span aria-hidden="true" className="inline-block h-2 w-2 shrink-0 bg-[var(--accent-soft)]" />
+            <span className="truncate">01 — Choose your theme</span>
             <span aria-hidden="true" className="h-px flex-1 bg-[var(--night-line)]" />
-            <span className="hidden sm:inline">Fig. 00 — The reader</span>
+            <span className="hidden shrink-0 sm:inline">Fig. 00 — The reader</span>
           </p>
 
-          <div className="mt-7 grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
-            {/* Left — character, same Fig. language as Hero/About */}
+          <div className="mt-5 grid items-start gap-6 lg:mt-7 lg:grid-cols-12 lg:gap-10">
+            {/* Left — character banner on mobile, portrait on desktop */}
             <figure className="border-2 border-[var(--cream)]/80 bg-[var(--night-soft)] lg:col-span-5">
-              <div className="relative aspect-[16/10] w-full overflow-hidden lg:aspect-[4/4.4]">
+              <div className="relative aspect-[21/9] w-full overflow-hidden sm:aspect-[21/8] lg:aspect-[4/4.4]">
                 <Image
                   src="/images/intro-charater.jpg"
                   alt="Karakter anime pilihan tema portfolio"
@@ -227,10 +234,10 @@ export default function IntroGate() {
                 />
                 <div aria-hidden="true" className="absolute inset-0 ring-1 ring-inset ring-black/20" />
               </div>
-              <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t-2 border-[var(--cream)]/80 px-4 py-2.5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[var(--sand)]">
+              <figcaption className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t-2 border-[var(--cream)]/80 px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.14em] text-[var(--sand)] sm:px-4 sm:py-2.5 sm:text-[0.68rem]">
                 <span>Fig. 00 — The character</span>
-                <span className="text-[var(--cream-dim)]">
-                  Preview: {(preview ?? theme) === "mono" ? "mono" : "default"}
+                <span className="text-[var(--accent-soft)]">
+                  ● {(preview ?? theme) === "mono" ? "mono" : "default"}
                 </span>
               </figcaption>
             </figure>
@@ -240,20 +247,22 @@ export default function IntroGate() {
               <h2
                 tabIndex={-1}
                 data-autofocus
-                className="display-section text-[clamp(2.1rem,5.5vw,3.9rem)] outline-none"
+                className="display-section text-[clamp(1.7rem,8.5vw,3.9rem)] outline-none"
               >
                 How do you want to read this story?
               </h2>
-              <p className="mt-4 max-w-xl text-[0.98rem] leading-relaxed text-[var(--cream-dim)]">
+              <p className="mt-3 max-w-xl text-[0.9rem] leading-relaxed text-[var(--cream-dim)] lg:mt-4 lg:text-[0.98rem]">
                 Same story, two lights.{" "}
                 <span className="text-[var(--cream)]">Default</span> is warm paper with a
                 red accent — <span className="text-[var(--cream)]">Mono</span> strips
-                colour away for pure focus. Hover to preview, click (or press{" "}
+                colour away for pure focus.{" "}
+                <span className="sm:hidden">Tap a theme to enter.</span>
+                <span className="hidden sm:inline">Hover to preview, click (or press{" "}
                 <kbd className="border border-[var(--night-faint)] px-1.5 py-0.5 font-mono text-[0.7rem]">1</kbd>{" / "}
-                <kbd className="border border-[var(--night-faint)] px-1.5 py-0.5 font-mono text-[0.7rem]">2</kbd>) to enter.
+                <kbd className="border border-[var(--night-faint)] px-1.5 py-0.5 font-mono text-[0.7rem]">2</kbd>) to enter.</span>
               </p>
 
-              <div className="mt-7 grid gap-4 sm:grid-cols-2" role="group" aria-label="Theme options">
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:mt-7 lg:gap-4" role="group" aria-label="Theme options">
                 {CARDS.map((card) => {
                   const isSaved = theme === card.id;
                   const isActive = (preview ?? theme) === card.id || leavingTheme === card.id;
@@ -269,28 +278,32 @@ export default function IntroGate() {
                       onBlur={() => setHovered(null)}
                       aria-pressed={leavingTheme === card.id}
                       data-active={isActive}
-                      className="theme-card group border-2 border-[var(--night-faint)] bg-[var(--night-soft)] p-5 text-left hover:border-[var(--accent-soft)]"
+                      className="theme-card group border-2 border-[var(--night-faint)] bg-[var(--night-soft)] p-4 text-left hover:border-[var(--accent-soft)] sm:p-5"
                     >
-                      <span className="flex items-center justify-between font-mono text-[0.68rem] uppercase tracking-[0.16em] text-[var(--sand)]">
-                        <span>{card.no} — {card.id === "default" ? "Press 1" : "Press 2"}</span>
+                      <span className="flex items-center justify-between gap-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-[var(--sand)] sm:text-[0.68rem]">
+                        <span>
+                          {card.no} —{" "}
+                          <span className="sm:hidden">Tap to enter</span>
+                          <span className="hidden sm:inline">{card.id === "default" ? "Press 1" : "Press 2"}</span>
+                        </span>
                         {isSaved && (
-                          <span className="border border-[var(--accent-soft)] px-2 py-0.5 text-[var(--accent-soft)]">
+                          <span className="shrink-0 border border-[var(--accent-soft)] px-2 py-0.5 text-[var(--accent-soft)]">
                             Saved
                           </span>
                         )}
                       </span>
 
-                      <span className="mt-3 block text-[1.55rem] font-bold leading-none tracking-tight text-[var(--cream)]">
+                      <span className="mt-2.5 block text-[1.35rem] font-bold leading-none tracking-tight text-[var(--cream)] sm:mt-3 sm:text-[1.55rem]">
                         {card.title}
                       </span>
-                      <span className="mt-1.5 block font-mono text-[0.68rem] uppercase tracking-[0.12em] text-[var(--sand)]">
+                      <span className="mt-1.5 block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-[var(--sand)] sm:text-[0.68rem]">
                         {card.desc}
                       </span>
 
                       {/* Mini editorial mock — shows the real difference */}
                       <span
                         aria-hidden="true"
-                        className={`mt-4 block border p-3 transition-colors ${
+                        className={`mt-3 block border p-2.5 transition-colors sm:mt-4 sm:p-3 ${
                           isMono
                             ? "border-[#3a3a3a] bg-[#ececec]"
                             : "border-[#141310] bg-[#f4f1ea]"
@@ -313,7 +326,7 @@ export default function IntroGate() {
                         ))}
                       </span>
 
-                      <span className="mt-4 block font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[var(--cream-dim)] transition-colors group-hover:text-[var(--accent-soft)]">
+                      <span className="mt-3 block font-mono text-[0.65rem] uppercase tracking-[0.16em] text-[var(--cream-dim)] transition-colors group-hover:text-[var(--accent-soft)] sm:mt-4 sm:text-[0.7rem]">
                         Enter with {card.title.toLowerCase()} →
                       </span>
                     </button>
@@ -321,7 +334,7 @@ export default function IntroGate() {
                 })}
               </div>
 
-              <div className="mt-6 flex flex-col gap-2 border-t border-[var(--night-line)] pt-4 font-mono text-[0.68rem] uppercase leading-relaxed tracking-[0.12em] text-[var(--sand)] sm:flex-row sm:items-center sm:justify-between">
+              <div className="mt-5 flex flex-col gap-1.5 border-t border-[var(--night-line)] pt-3.5 font-mono text-[0.6rem] uppercase leading-relaxed tracking-[0.12em] text-[var(--sand)] sm:mt-6 sm:flex-row sm:items-center sm:justify-between sm:pt-4 sm:text-[0.68rem]">
                 <p>♪ bye × into you — hakiraadityaa · plays after you enter</p>
                 <p className="text-[var(--cream-dim)]">Changeable later in header</p>
               </div>

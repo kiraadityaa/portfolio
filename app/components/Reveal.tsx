@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useThemeAudio } from "./ThemeAudioProvider";
 
 type RevealProps = {
   children: React.ReactNode;
@@ -11,8 +12,12 @@ type RevealProps = {
 
 export default function Reveal({ children, delay = 0, as = "div", className = "" }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
+  // Wait until the visitor enters the site (picks a theme) so scroll
+  // animations don't play out hidden behind the intro overlay.
+  const { entered } = useThemeAudio();
 
   useEffect(() => {
+    if (!entered) return;
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -32,7 +37,7 @@ export default function Reveal({ children, delay = 0, as = "div", className = ""
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [entered]);
 
   const Tag = as as "div";
 
