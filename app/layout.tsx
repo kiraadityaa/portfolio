@@ -17,24 +17,64 @@ const mono = IBM_Plex_Mono({
   variable: "--font-mono",
 });
 
+const TITLE = "Fa'al Aditya Purnama — Student, Linux Enthusiast & Python Learner";
+const DESCRIPTION =
+  "Personal portfolio of Fa'al Aditya Purnama, a Grade 12 TKJ student at SMKN 1 Kemlagi — into Linux, Python, networking, and figuring out how things work.";
+const SHARE_DESCRIPTION =
+  "16 y.o. TKJ student exploring Linux, Python & networking. Step inside — pick a theme and look around.";
+const OG_ALT = "Fa'al Aditya Purnama — Student, Linux Enthusiast & Python Learner";
+
 export const metadata: Metadata = {
-  title: "Fa'al Aditya Purnama — Student, Linux Enthusiast & Python Learner",
-  description:
-    "Personal portfolio of Fa'al Aditya Purnama, a Grade 12 TKJ student at SMKN 1 Kemlagi interested in Linux, programming, Python, networking, and technology.",
+  title: {
+    default: TITLE,
+    template: `%s — Fa'al Aditya Purnama`,
+  },
+  description: DESCRIPTION,
+  keywords: [
+    "Fa'al Aditya Purnama",
+    "TKJ",
+    "SMKN 1 Kemlagi",
+    "Linux",
+    "Python",
+    "networking",
+    "portfolio",
+    "student developer",
+  ],
+  authors: [{ name: "Fa'al Aditya Purnama" }],
+  creator: "Fa'al Aditya Purnama",
+  category: "technology",
   metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Fa'al Aditya Purnama — Student, Linux Enthusiast & Python Learner",
-    description:
-      "A 16-year-old vocational student exploring Linux, programming, Python, networking, and the world of technology.",
-    type: "website",
-    locale: "en_US",
+    title: TITLE,
+    description: SHARE_DESCRIPTION,
+    url: "/",
     siteName: "Fa'al Aditya Purnama",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: OG_ALT,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
-    title: "Fa'al Aditya Purnama — Student, Linux Enthusiast & Python Learner",
-    description:
-      "A 16-year-old vocational student exploring Linux, programming, Python, networking, and technology.",
+    card: "summary_large_image",
+    title: TITLE,
+    description: SHARE_DESCRIPTION,
+    images: [
+      {
+        url: "/twitter-image",
+        width: 1200,
+        height: 600,
+        alt: OG_ALT,
+      },
+    ],
   },
   robots: {
     index: true,
