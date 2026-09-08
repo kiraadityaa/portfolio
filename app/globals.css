@@ -12,6 +12,8 @@
   --color-accent: #b3271a;
   --color-accent-deep: #871b11;
   --color-moss: #3f4a3a;
+  /* Warm salmon used ONLY on dark surfaces for contrast (intro / linux / footer) */
+  --color-accent-soft: #e0684f;
 
   --font-sans: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
@@ -23,6 +25,28 @@
   --muted: var(--color-muted);
   --border: var(--color-line);
   --accent: var(--color-accent);
+
+  /* Aliases — fixes legacy var(--paper) / var(--ink) usages across components */
+  --paper: var(--color-paper);
+  --paper-deep: var(--color-paper-deep);
+  --ink: var(--color-ink);
+  --ink-soft: var(--color-ink-soft);
+  --faint: var(--color-faint);
+  --line: var(--color-line);
+  --line-strong: var(--color-line-strong);
+  --accent-deep: var(--color-accent-deep);
+  --moss: var(--color-moss);
+  --accent-soft: var(--color-accent-soft);
+
+  /* Dark editorial surface (intro / linux / footer) — always dark, both themes */
+  --night: #141310;
+  --night-soft: #1c1a16;
+  --night-line: #2e2b25;
+  --night-faint: #3a372f;
+  --cream: #ece7db;
+  --cream-dim: #d8d2c4;
+  --sand: #8f897c;
+
   --container: 76rem;
   --grid-gap: clamp(1rem, 3vw, 2.5rem);
   --rule: 1px solid var(--border);
@@ -186,6 +210,122 @@ body {
 .u-link:hover {
   color: var(--accent);
   text-decoration-color: var(--accent);
+}
+
+/* Duotone wash so lo-fi photos blend into paper palette */
+.img-duotone {
+  filter: sepia(0.28) contrast(1.03) saturate(0.9);
+}
+
+/* Full monochrome theme — variables collapse to gray scale.
+   Derived aliases (--background etc.) follow automatically via var(). */
+[data-theme="mono"] {
+  --color-paper: #ececec;
+  --color-paper-deep: #dcdcdc;
+  --color-ink: #1a1a1a;
+  --color-ink-soft: #333333;
+  --color-muted: #5f5f5f;
+  --color-faint: #8c8c8c;
+  --color-line: #c4c4c4;
+  --color-line-strong: #1a1a1a;
+  --color-accent: #444444;
+  --color-accent-deep: #222222;
+  --color-moss: #4a4a4a;
+  --color-accent-soft: #9a9a9a;
+  /* dark surfaces stay dark, but desaturated in mono */
+  --night: #171717;
+  --night-soft: #1f1f1f;
+  --night-line: #2c2c2c;
+  --night-faint: #3a3a3a;
+  --cream: #ececec;
+  --cream-dim: #d4d4d4;
+  --sand: #8c8c8c;
+}
+[data-theme="mono"] img,
+[data-theme="mono"] .img-duotone {
+  filter: grayscale(1) contrast(1.05);
+}
+
+/* Smooth theme switching */
+body {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+header,
+footer,
+section {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ---- Intro ---- */
+.intro-letter {
+  opacity: 0;
+  display: inline-block;
+  transform: translateY(0.5em);
+  animation: intro-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+.intro-fade {
+  opacity: 0;
+  animation: intro-fade-in 0.7s ease forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes intro-rise {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes intro-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+.intro-progress {
+  transform-origin: left;
+  animation: intro-progress 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes intro-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+/* Dark grid texture for intro / linux / footer */
+.grid-dark {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+/* Theme choice card */
+.theme-card {
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.theme-card:hover,
+.theme-card:focus-visible {
+  transform: translateY(-3px);
+}
+.theme-card[data-active="true"] {
+  border-color: var(--accent-soft);
+  background: color-mix(in srgb, var(--accent-soft) 7%, var(--night-soft));
+}
+/* Mini mock preview inside theme cards */
+.mock-paper {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  border-color: var(--color-line-strong);
+}
+.mock-bar {
+  height: 0.45rem;
 }
 
 /* Big index numerals */

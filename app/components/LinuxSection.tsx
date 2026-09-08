@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 import Terminal from "./Terminal";
 
@@ -44,6 +45,24 @@ export default function LinuxSection() {
               <br />
               and man pages.
             </p>
+            <figure className="mt-8 flex items-center gap-4 border border-[#2c2a24] bg-[#1c1a16] p-3">
+              <span className="relative block h-16 w-16 shrink-0 overflow-hidden border border-[#3a372f]">
+                <Image
+                  src="/images/tux-lofi.svg"
+                  alt="Maskot penguin Linux minimal dengan syal merah"
+                  fill
+                  sizes="64px"
+                  loading="lazy"
+                  className="object-cover"
+                />
+              </span>
+              <figcaption className="font-mono text-[0.72rem] uppercase leading-relaxed tracking-[0.12em] text-[#8f897c]">
+                Fig. 04 — Tux, daily driver
+                <span className="mt-1 block normal-case tracking-normal text-[#d8d2c4]">
+                  Custom SVG, no distro was harmed.
+                </span>
+              </figcaption>
+            </figure>
           </Reveal>
           <Reveal delay={120} className="lg:col-span-7">
             <Terminal />

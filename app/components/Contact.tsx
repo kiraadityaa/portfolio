@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight, Camera, GitBranch, MessageCircle, Music2 } from "lucide-react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
@@ -49,6 +50,24 @@ export default function Contact() {
 
         <div className="mt-10 grid gap-10 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
+            <figure className="mb-8 flex items-center gap-4">
+              <span className="relative block h-24 w-24 shrink-0 overflow-hidden border-2 border-[var(--foreground)] bg-[var(--paper-deep)]">
+                <Image
+                  src="/images/avatar-lofi.svg"
+                  alt="Avatar ilustrasi anime dengan headphone"
+                  fill
+                  sizes="96px"
+                  loading="lazy"
+                  className="object-cover"
+                />
+              </span>
+              <figcaption className="label-mono text-[var(--muted)]">
+                Fa&apos;al — after school hours
+                <span className="mt-1 block normal-case tracking-normal text-[var(--faint)]">
+                  Illustrated avatar, not a photo.
+                </span>
+              </figcaption>
+            </figure>
             <p className="max-w-md text-[clamp(1.1rem,2.2vw,1.4rem)] font-medium leading-snug tracking-tight">
               Curious about Linux, programming, or Python?
             </p>

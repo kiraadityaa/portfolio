@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 
@@ -39,6 +40,24 @@ export default function ProgrammingSection() {
             </figure>
           </Reveal>
           <Reveal delay={120} className="lg:col-span-5">
+            <figure className="mb-6 flex items-center gap-4 border border-[var(--border)] bg-[#faf8f3] p-3">
+              <span className="relative block h-20 w-20 shrink-0 overflow-hidden border border-[var(--foreground)]">
+                <Image
+                  src="/images/python-lofi.svg"
+                  alt="Stiker ular Python minimal dengan aksen merah"
+                  fill
+                  sizes="80px"
+                  loading="lazy"
+                  className="object-cover"
+                />
+              </span>
+              <figcaption className="label-mono text-[var(--muted)]">
+                Fig. 03 — Python, line by line
+                <span className="mt-1 block normal-case tracking-normal text-[var(--faint)]">
+                  Custom SVG — learning, not logo.
+                </span>
+              </figcaption>
+            </figure>
             <p className="label-mono text-[var(--accent)]">Python</p>
             <p className="mt-3 text-lg leading-relaxed text-[var(--ink-soft)]">
               Python is the language I reach for first. Its readability makes it a

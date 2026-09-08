@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 
@@ -25,7 +26,21 @@ export default function About() {
             </p>
           </Reveal>
           <Reveal delay={120} className="lg:col-span-5">
-            <dl className="border-t border-[var(--border)] font-mono text-[0.8rem]">
+            <figure className="border-2 border-[var(--foreground)] bg-[var(--paper-deep)]/40">
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
+                <Image
+                  src="/images/about-lofi.svg"
+                  alt="Ilustrasi lo-fi meja programmer dengan laptop, lampu, dan kucing tidur"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="border-t border-[var(--border)] px-4 py-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+                Fig. 02 — Desk setup / custom SVG
+              </figcaption>
+            </figure>
+            <dl className="mt-8 border-t border-[var(--border)] font-mono text-[0.8rem]">
               {[
                 ["Name", "Fa'al Aditya Purnama"],
                 ["Age", "16"],

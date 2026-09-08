@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Maskot penguin minimal dengan syal merah">
+  <!-- body -->
+  <ellipse cx="100" cy="112" rx="58" ry="66" fill="#f4f1ea"/>
+  <ellipse cx="100" cy="112" rx="58" ry="66" fill="none" stroke="#141310" stroke-width="6"/>
+  <!-- belly -->
+  <ellipse cx="100" cy="128" rx="34" ry="42" fill="#ebe6da" stroke="#141310" stroke-width="4"/>
+  <!-- eyes -->
+  <circle cx="82" cy="88" r="7" fill="#141310"/>
+  <circle cx="118" cy="88" r="7" fill="#141310"/>
+  <circle cx="84.5" cy="85.5" r="2.2" fill="#f4f1ea"/>
+  <circle cx="120.5" cy="85.5" r="2.2" fill="#f4f1ea"/>
+  <!-- beak -->
+  <polygon points="100,98 90,108 110,108" fill="#e0684f" stroke="#141310" stroke-width="4" stroke-linejoin="round"/>
+  <!-- flippers -->
+  <ellipse cx="44" cy="120" rx="10" ry="26" fill="#f4f1ea" stroke="#141310" stroke-width="5" transform="rotate(12 44 120)"/>
+  <ellipse cx="156" cy="120" rx="10" ry="26" fill="#f4f1ea" stroke="#141310" stroke-width="5" transform="rotate(-12 156 120)"/>
+  <!-- feet -->
+  <ellipse cx="78" cy="180" rx="16" ry="8" fill="#e0684f" stroke="#141310" stroke-width="4"/>
+  <ellipse cx="122" cy="180" rx="16" ry="8" fill="#e0684f" stroke="#141310" stroke-width="4"/>
+  <!-- scarf -->
+  <rect x="56" y="118" width="88" height="18" rx="9" fill="#e0684f" stroke="#141310" stroke-width="4"/>
+  <rect x="108" y="130" width="18" height="34" rx="8" fill="#e0684f" stroke="#141310" stroke-width="4"/>
+  <line x1="112" y1="148" x2="122" y2="148" stroke="#141310" stroke-width="3"/>
+  <line x1="112" y1="155" x2="122" y2="155" stroke="#141310" stroke-width="3"/>
+  <!-- terminal prompt on belly -->
+  <g font-family="monospace" font-size="14" font-weight="bold" fill="#141310">
+    <text x="84" y="140">$</text>
+    <line x1="96" y1="136" x2="112" y2="136" stroke="#b3271a" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

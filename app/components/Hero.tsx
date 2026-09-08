@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 
 export default function Hero() {
@@ -89,6 +90,25 @@ export default function Hero() {
             </ol>
           </Reveal>
         </div>
+
+        <Reveal delay={300}>
+          <figure className="mt-10 border-2 border-[var(--foreground)] bg-[var(--paper-deep)]/40">
+            <div className="relative aspect-[16/7] w-full overflow-hidden">
+              <Image
+                src="/images/anime-hero.jpg"
+                alt="Ilustrasi anime lo-fi seorang pelajar begadang belajar di meja dengan lampu hangat"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 1152px"
+                className="img-duotone object-cover"
+              />
+            </div>
+            <figcaption className="flex flex-wrap items-center justify-between gap-2 border-t-2 border-[var(--foreground)] px-4 py-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[var(--muted)]">
+              <span>Fig. 01 — Night shift / lo-fi</span>
+              <span className="text-[var(--faint)]">StockCake royalty-free</span>
+            </figcaption>
+          </figure>
+        </Reveal>
       </div>
     </section>
   );

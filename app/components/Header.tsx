@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useThemeAudio } from "./ThemeAudioProvider";
 
 const LINKS = [
   { href: "#about", label: "About" },
@@ -13,6 +14,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("");
   const [scrolled, setScrolled] = useState(false);
+  const { theme, setThemeChoice } = useThemeAudio();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -77,6 +79,38 @@ export default function Header() {
               />
             </a>
           ))}
+          <div
+            role="group"
+            aria-label="Theme"
+            className="flex items-center border border-[var(--foreground)]"
+          >
+            {(["default", "mono"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setThemeChoice(t)}
+                aria-pressed={theme === t}
+                title={t === "default" ? "Warm paper theme" : "Monochrome theme"}
+                className={`label-mono flex min-h-9 items-center gap-2 px-3 py-2 transition-colors ${
+                  theme === t
+                    ? "bg-[var(--foreground)] text-[var(--background)]"
+                    : "text-[var(--muted)] hover:text-[var(--accent)]"
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-3 w-3 border border-current"
+                  style={{
+                    background:
+                      t === "default"
+                        ? "linear-gradient(135deg, #f4f1ea 50%, #b3271a 50%)"
+                        : "linear-gradient(135deg, #ececec 50%, #1a1a1a 50%)",
+                  }}
+                />
+                {t === "default" ? "Paper" : "Mono"}
+              </button>
+            ))}
+          </div>
           <a
             href="#contact"
             className="label-mono border border-[var(--foreground)] px-4 py-2.5 transition-colors hover:bg-[var(--foreground)] hover:text-[var(--background)]"
@@ -85,19 +119,48 @@ export default function Header() {
           </a>
         </nav>
 
-        <button
-          type="button"
-          className="label-mono flex min-h-11 min-w-11 items-center justify-center gap-2 border border-[var(--foreground)] px-4 md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? "Close" : "Menu"}
-          <span aria-hidden="true" className="inline-flex flex-col gap-1">
-            <span className={`block h-[2px] w-4 bg-current transition-transform ${open ? "translate-y-[3px] rotate-45" : ""}`} />
-            <span className={`block h-[2px] w-4 bg-current transition-transform ${open ? "-translate-y-[3px] -rotate-45" : ""}`} />
-          </span>
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <div role="group" aria-label="Theme" className="flex items-center border border-[var(--foreground)]">
+            {(["default", "mono"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setThemeChoice(t)}
+                aria-pressed={theme === t}
+                aria-label={t === "default" ? "Paper theme" : "Mono theme"}
+                className={`flex min-h-11 min-w-11 items-center justify-center px-3 transition-colors ${
+                  theme === t
+                    ? "bg-[var(--foreground)] text-[var(--background)]"
+                    : "text-[var(--muted)]"
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-3.5 w-3.5 border border-current"
+                  style={{
+                    background:
+                      t === "default"
+                        ? "linear-gradient(135deg, #f4f1ea 50%, #b3271a 50%)"
+                        : "linear-gradient(135deg, #ececec 50%, #1a1a1a 50%)",
+                  }}
+                />
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="label-mono flex min-h-11 min-w-11 items-center justify-center gap-2 border border-[var(--foreground)] px-4"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? "Close" : "Menu"}
+            <span aria-hidden="true" className="inline-flex flex-col gap-1">
+              <span className={`block h-[2px] w-4 bg-current transition-transform ${open ? "translate-y-[3px] rotate-45" : ""}`} />
+              <span className={`block h-[2px] w-4 bg-current transition-transform ${open ? "-translate-y-[3px] -rotate-45" : ""}`} />
+            </span>
+          </button>
+        </div>
       </div>
 
       {open && (
