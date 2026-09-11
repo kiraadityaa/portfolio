@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  // NAMA INI wajib sama dengan nama Worker di dashboard Cloudflare.
+  // Error 10143 kemarin terjadi karena binding di bawah menunjuk ke
+  // "portfolio" (nama package.json), padahal Worker-nya "aditya-purnama".
+  "name": "aditya-purnama",
+  "compatibility_date": "2026-08-20",
+  "compatibility_flags": [
+    // Enable Node.js API
+    "nodejs_compat",
+    // Allow to fetch URLs in your app
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      // WAJIB sama dengan "name" di atas
+      "service": "aditya-purnama"
+    }
+  ],
+  "images": {
+    "binding": "IMAGES"
+  }
+}
